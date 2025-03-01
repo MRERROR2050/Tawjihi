@@ -2,9 +2,7 @@ const express = require('express')
 const mongoose = require('mongoose')
 const cors = require('cors')
 const app = express()
-
-require("dotenv").config()
-
+require("dotenv").config();
 
 
 
@@ -24,8 +22,8 @@ app.use("/" , require("./routes/userRoute"))
 
 
 
-mongoose.connect("mongodb+srv://abdalfatahaljuaidi:Mrerror2002@cluster0.b1gih.mongodb.net/Tawjihi?retryWrites=true&w=majority&appName=Cluster0").then(() => {
-    app.listen(4000,() =>{
+mongoose.connect(process.env.DATABASE_URL).then(() => {
+    app.listen(process.env.PORT,() =>{
         console.log("Server is ready to take off");
         
     })

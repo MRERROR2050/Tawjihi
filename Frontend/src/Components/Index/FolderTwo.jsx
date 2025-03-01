@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import logo from '../../assets/logo.jpeg'
 import { Link ,useNavigate } from "react-router-dom";
 import axios from "axios";
 import Folder from '../../../public/New folder (3).zip'
 import image from '../../assets/imagefoldertwo.jpeg'
+import { ArrowUp } from "lucide-react";
 
 
 
@@ -12,6 +13,25 @@ const FolderTwo = () => {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
   const navigate = useNavigate()
 
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const toggleVisibility = () => {
+      if (window.scrollY > 300) {
+        setIsVisible(true);
+      } else {
+        setIsVisible(false);
+      }
+    };
+
+    window.addEventListener("scroll", toggleVisibility);
+    return () => window.removeEventListener("scroll", toggleVisibility);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
  async function signout(id) {
  
   try{
@@ -19,7 +39,7 @@ const FolderTwo = () => {
 
     if(data.message == "تم تسجيل الخروج"){
       localStorage.removeItem("user");
-      navigate("/Login");
+      navigate("/LogIn");
     }
 
   }catch(error){
@@ -29,37 +49,174 @@ const FolderTwo = () => {
  
   }
 
+
+  // إنشاء طبقة الغباش
+const blurLayer = document.createElement("div");
+blurLayer.style.position = "fixed";
+blurLayer.style.top = "0";
+blurLayer.style.left = "0";
+blurLayer.style.width = "100vw";
+blurLayer.style.height = "100vh";
+blurLayer.style.background = "rgba(0, 0, 0, 0.5)"; // خلفية شفافة
+blurLayer.style.backdropFilter = "blur(10px)"; // تأثير الغباش
+blurLayer.style.zIndex = "9999";
+blurLayer.style.display = "none"; // إخفاؤه افتراضيًا
+document.body.appendChild(blurLayer);
+
+// إنشاء رسالة التحذير
+const warningMessage = document.createElement("div");
+warningMessage.style.position = "fixed";
+warningMessage.style.top = "50%";
+warningMessage.style.left = "50%";
+warningMessage.style.transform = "translate(-50%, -50%)";
+warningMessage.style.background = "white";
+warningMessage.style.padding = "20px";
+warningMessage.style.borderRadius = "10px";
+warningMessage.style.boxShadow = "0px 0px 10px rgba(0, 0, 0, 0.5)";
+warningMessage.style.fontSize = "18px";
+warningMessage.style.fontWeight = "bold";
+warningMessage.style.textAlign = "center";
+warningMessage.style.display = "none"; // إخفاؤه افتراضيًا
+warningMessage.style.zIndex = "10000";
+document.body.appendChild(warningMessage);
+
+// دالة لتفعيل الغباش مع الرسالة
+function showBlurMessage(message) {
+  blurLayer.style.display = "block";
+  warningMessage.textContent = message;
+  warningMessage.style.display = "block";
+
+  setTimeout(() => {
+    blurLayer.style.display = "none";
+    warningMessage.style.display = "none";
+  }, 3000); // إزالة الغباش والرسالة بعد 3 ثوانٍ
+}
+
+// منع أي ضغط على الكيبورد
+document.addEventListener("keydown", function (e) {
+  e.preventDefault();
+  showBlurMessage("❌ غير مسموح باستخدام لوحة المفاتيح هنا!");
+});
+
+// منع النقر بزر الفأرة الأيمن
+document.addEventListener("contextmenu", function (e) {
+  e.preventDefault();
+  showBlurMessage("⚠️ النقر بزر الفأرة الأيمن غير مسموح!");
+});
+
+// منع لقطة الشاشة (PrintScreen)
+document.addEventListener("keydown", function (e) {
+  if (e.key === "PrintScreen") {
+    navigator.clipboard.writeText(""); // مسح الحافظة
+    e.preventDefault();
+    showBlurMessage("📸 لقطة الشاشة غير مسموح بها!");
+  }
+});
+
+// منع Snipping Tool (إخفاء الموقع عند فقدان التركيز)
+document.addEventListener("visibilitychange", function () {
+  if (document.visibilityState === "hidden") {
+    document.body.style.display = "none"; // إخفاء الصفحة
+  } else {
+    document.body.style.display = "block";
+    showBlurMessage("🔍 تم اكتشاف محاولة لقطة شاشة!");
+  }
+});
+
+// منع وضع "Alt + Tab" لتبديل النوافذ
+window.addEventListener("blur", function () {
+  document.body.style.opacity = "0"; // تقليل الشفافية عند تبديل النوافذ
+});
+window.addEventListener("focus", function () {
+  document.body.style.opacity = "1"; // إرجاع الشفافية عند العودة
+  showBlurMessage("⚠️ تم اكتشاف تبديل النوافذ!");
+});
+
+// لمنع التفاعل مع شاشة الموبايل عبر اللمس
+document.addEventListener("touchstart", function (e) {
+  e.preventDefault();
+  showBlurMessage("🚫 التفاعل باللمس غير مسموح به!");
+});
+
+// منع التكبير (pinch-to-zoom)
+document.addEventListener("touchmove", function (e) {
+  if (e.scale !== 1) {
+    e.preventDefault();
+    showBlurMessage("⚠️ التكبير غير مسموح به!");
+  }
+}, { passive: false });
+
+// منع النقر المزدوج لتكبير الصفحة
+document.addEventListener("dblclick", function (e) {
+  e.preventDefault();
+  showBlurMessage("🚫 النقر المزدوج غير مسموح!");
+});
+
+// منع الشريط العلوي في الأجهزة المحمولة (الذي يظهر أثناء سحب الشاشة)
+document.addEventListener("touchend", function (e) {
+  e.preventDefault();
+});
+
+// منع التقاط لقطة شاشة على الموبايل عبر الأدوات المدمجة
+document.addEventListener("visibilitychange", function () {
+  if (document.hidden) {
+    document.body.style.display = "none"; // إخفاء الموقع
+  } else {
+    document.body.style.display = "block";
+    showBlurMessage("🔍 تم اكتشاف محاولة لقطة شاشة!");
+  }
+});
+
+
   return (
     <div className="w-full min-h-screen bg-gray-100 text-right   p-6">
-<div className="flex items-center justify-between bg-gray-100 p-4 shadow-md">
-
-
-  {/* القائمة على شكل أزرار */}
-  <div className="flex space-x-4">
-    <button className="px-4 py-2 bg-red-500 text-white rounded-lg shadow hover:bg-red-600 transition"   onClick={() => signout(user._id)} >
-      تسجيل الخروج
+          <button
+      onClick={scrollToTop}
+      className={`fixed bottom-6 right-6 bg-white text-black p-3 rounded-full shadow-lg transition-opacity duration-300 ${
+        isVisible ? "opacity-100" : "opacity-0 pointer-events-none"
+      } animate-bounce`}
+    >
+      <ArrowUp size={24} />
     </button>
-    {user && user.Email === "a@a.com" && (
-  <button className="px-4 py-2 bg-main hover:bg-hover text-white rounded-lg shadow transition">
-    <Link to="/Dashboard" className="font-semibold text-white">
-      لوحة التحكم
-    </Link>
-  </button>
-)}
-  </div>
+  <div className="sm:flex  items-center justify-between bg-gray-100 p-4 shadow-md">
+        {/* القائمة على شكل أزرار */}
+        <div className="flex text-center space-x-4">
+          <button
+            className="px-4 m-auto sm:m-0 py-2 bg-red-500 text-white rounded-lg shadow hover:bg-red-600 transition"
+            onClick={() => signout(user._id)}
+          >
+            تسجيل الخروج
+          </button>
+          {user && user.Email === "a@a.com" && (
+            <button className="px-4 py-2 bg-main hover:bg-hover text-white rounded-lg shadow transition">
+              <Link to="/Dashboard" className="font-semibold text-white">
+                لوحة التحكم
+              </Link>
+            </button>
+          )}
+        </div>
 
- <div className="flex  space-x-5">
-  <h1 className="text-xl font-semibold">
-    <Link to="/ItalyStudyGuide" className="text-main hover:underline">Folder One</Link>
-  </h1>
-  <h1 className="text-xl font-semibold">
-    <Link to="/FolderTwo" className="text-main hover:underline">Folder Two</Link>
-  </h1>
-</div>
+        <div className="flex my-9  space-x-5">
+          <h1 className="text-xl font-semibold m-auto">
+            <Link to="/ItalyStudyGuide" className="text-main border-2 border-transparent border-main py-5 px-3 transition duration-200 hover:bg-main hover:text-white">
+            Dossier visa
+            </Link>
+          </h1>
+          <h1 className="text-xl font-semibold">
+          <Link
+  to="/FolderTwo"
+  className="text-main border-2 border-transparent border-main py-5 px-3 transition duration-200 hover:bg-main hover:text-white"
+>
+Declaration d'impot
+</Link>
 
-    {/* الشعار */}
-    <img src={logo} alt="Logo" className="w-16 h-16" />
-</div>
+          </h1>
+        </div>
+
+        {/* الشعار */}
+        <img src={logo} alt="Logo" className="w-16 h-16 sm:m-0 m-auto" />
+      </div>
+
 <div className="flex items-center justify-between bg-gray-100 p-4 shadow-md">
 <section className="mb-6 p-4 bg-green-50 rounded-lg border-r-4 m-auto w-full   border-green-500">
         
@@ -298,7 +455,7 @@ const FolderTwo = () => {
 
 
 </div>
-<p className="text-gray-600">و السلام عليكم و رحمة الله</p>
+<p className="text-gray-600">و السلام عليكم ورحمة الله</p>
       </div>
     </div>
 </section>

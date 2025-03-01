@@ -1,10 +1,10 @@
 import axios from "axios";
-import  { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { FaEdit, FaTrash, FaHome } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-const Dashboard = () => {
+const Dashboard = ({ setUser: setLocalStorageUser }) => {
   // بيانات الطلبات (يمكنك استبدالها ببيانات من API أو قاعدة بيانات)
   const [users, setUsers] = useState([]); // تعيين القيمة الافتراضية كمصفوفة فارغة
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
@@ -49,6 +49,7 @@ const Dashboard = () => {
 
       if (data.message == "تم تسجيل الخروج") {
         localStorage.removeItem("user");
+        setLocalStorageUser(JSON.parse(localStorage.getItem("user")));
         navigate("/Login");
       }
     } catch (error) {
@@ -100,6 +101,7 @@ const Dashboard = () => {
               <tr>
                 <th className="py-3 px-6 text-center border-b">الإجراءات</th>
                 <th className="py-3 px-6 text-left border-b">وقت الطلب</th>
+                <th className="py-3 px-6 text-left border-b">كلمة السر</th>
                 <th className="py-3 px-6 text-left border-b">
                   البريد الإلكتروني
                 </th>
@@ -110,9 +112,7 @@ const Dashboard = () => {
               {users.map((user) => (
                 <tr key={user._id} className="hover:bg-gray-50">
                   <td className="py-3 px-6 border-b text-center space-x-3">
-                    <button
-                      className="text-blue-600 hover:text-blue-800"
-                    >
+                    <button className="text-blue-600 hover:text-blue-800">
                       <Link to={`/setData/${user.Email}`}>
                         <FaEdit size={18} />
                       </Link>
@@ -136,6 +136,9 @@ const Dashboard = () => {
                     })}
                   </td>
 
+                  <td className="py-3 px-6 border-b">
+                    {user.Password ? "موجود" : "غير موجود"}
+                  </td>
                   <td className="py-3 px-6 border-b">{user.Email}</td>
                   <td className="py-3 px-6 border-b">{user.Name}</td>
                 </tr>

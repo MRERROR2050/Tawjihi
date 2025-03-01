@@ -1,3 +1,25 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* لجميع المتصفحات التي تدعم ::-webkit-scrollbar */
+::-webkit-scrollbar {
+    width: 10px; /* عرض الـ scrollbar */
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background-color: green; /* لون المقبض */
+    border-radius: 10px; /* زوايا ناعمة */
+  }
+  
+  ::-webkit-scrollbar-track {
+    background-color: #e0e0e0; /* لون الخلفية */
+  }
+  
+
+  @media (min-width: 0px) {
+    html {
+      backdrop-filter: blur(10px);
+    }
+  }
+  

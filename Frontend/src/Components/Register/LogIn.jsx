@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import italyImage from '../../assets/italy2.jpg'; // استبدل بالمسار الصحيح للصورة
-import axios from 'axios';
-import { toast } from 'react-toastify';
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import italyImage from "../../assets/italy2.jpg"; // استبدل بالمسار الصحيح للصورة
+import axios from "axios";
+import { toast } from "react-toastify";
 
-const LogIn = () => {
+const LogIn = ({ setUser }) => {
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -13,12 +13,13 @@ const LogIn = () => {
     try {
       const { data } = await axios.post("http://localhost:4000/Login", {
         Email,
-        Password
+        Password,
       });
 
       if (data.message === "login success") {
         localStorage.setItem("user", JSON.stringify(data.user));
         toast.success(` ${data.user.Name} اهلا `);
+        setUser(JSON.parse(localStorage.getItem("user")));
         navigate("/ItalyStudyGuide");
       }
     } catch (error) {
@@ -32,18 +33,23 @@ const LogIn = () => {
       className="relative flex min-h-screen items-center justify-center bg-gray-100"
       style={{
         backgroundImage: `url(${italyImage})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
+        backgroundSize: "cover",
+        backgroundPosition: "center",
       }}
     >
       <div className="absolute inset-0 bg-black bg-opacity-50"></div>
 
       <div className="relative w-full max-w-md bg-white p-8 shadow-md rounded-lg">
-        <h2 className="text-center text-2xl font-bold text-gray-900">تسجيل الدخول</h2>
+        <h2 className="text-center text-2xl font-bold text-gray-900">
+          تسجيل الدخول
+        </h2>
 
         <div className="mt-6 space-y-4">
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 text-right">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-gray-700 text-right"
+            >
               عنوان البريد الإلكتروني
             </label>
             <input
@@ -55,7 +61,10 @@ const LogIn = () => {
           </div>
 
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700 text-right">
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-gray-700 text-right"
+            >
               كلمة المرور
             </label>
             <input
@@ -79,15 +88,21 @@ const LogIn = () => {
 
         {/* رابط إعادة تعيين كلمة المرور */}
         <div className="mt-4 text-center">
-          <Link to="/reset-password" className="text-sm text-main font-semibold hover:text-hover">
+          <Link
+            to="/reset-password"
+            className="text-sm text-main font-semibold hover:text-hover"
+          >
             هل نسيت كلمة المرور؟
           </Link>
         </div>
 
         <div className="mt-4 text-center">
           <p className="text-sm text-gray-600">
-            لا تملك حساب؟{' '}
-            <Link to="/signup" className="font-semibold text-main hover:text-hover">
+            لا تملك حساب؟{" "}
+            <Link
+              to="/signup"
+              className="font-semibold text-main hover:text-hover"
+            >
               اشترك هنا
             </Link>
           </p>
