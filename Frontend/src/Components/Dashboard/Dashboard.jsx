@@ -13,7 +13,7 @@ const Dashboard = ({ setUser: setLocalStorageUser }) => {
   useEffect(() => {
     async function sendReq() {
       try {
-        const { data } = await axios.get("http://localhost:4000/ShowRequests");
+        const { data } = await axios.get(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/ShowRequests`);
         console.log(data.Users);
         setUsers(data.Users);
       } catch (error) {
@@ -26,7 +26,7 @@ const Dashboard = ({ setUser: setLocalStorageUser }) => {
   async function deleteUser(id) {
     try {
       const { data } = await axios.delete(
-        `http://localhost:4000/DeleteRequests/${id}`
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/DeleteRequests/${id}`
       );
 
       if (data.success) {
@@ -45,7 +45,7 @@ const Dashboard = ({ setUser: setLocalStorageUser }) => {
 
   async function signout(id) {
     try {
-      const { data } = await axios.post(`http://localhost:4000/SignOut/${id}`);
+      const { data } = await axios.post(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/SignOut/${id}`);
 
       if (data.message == "تم تسجيل الخروج") {
         localStorage.removeItem("user");

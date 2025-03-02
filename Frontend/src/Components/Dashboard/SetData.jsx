@@ -19,7 +19,7 @@ const SetData = () => {
     e.preventDefault();
     const user = JSON.parse(localStorage.getItem("user"));
     const { data } = await axios.post(
-      `http://localhost:4000/set-user-password`,
+      `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/set-user-password`,
       {
         adminMail: user.Email,
         email: emailInput,

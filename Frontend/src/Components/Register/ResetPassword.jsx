@@ -9,7 +9,7 @@ const ResetPassword = () => {
 
   const submitForm = async () => {
   try {
-    const {data} = await axios.post("http://localhost:4000/ResetPassword",{
+    const {data} = await axios.post(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/ResetPassword`,{
       Email
     })
 

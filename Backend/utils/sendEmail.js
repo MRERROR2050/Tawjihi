@@ -5,12 +5,12 @@ require("dotenv").config();
 module.exports = async (to, password, name, subject, template) => {
   try {
     const transporter = createTransport({
-      host: process.env.HOST,
+      host: "process.env.HOST",
 
       port: 587,
       auth: {
-        user: process.env.USER,
-        pass: process.env.PASS,
+        user: "process.env.USER",
+        pass: "process.env.PASS",
       },
     });
 
@@ -30,7 +30,7 @@ module.exports = async (to, password, name, subject, template) => {
     const mailOptions = {
       from: {
         name: "السفر الى ايطاليا",
-        address: process.env.EMAIL,
+        address: "process.env.EMAIL",
       },
       to: to,
       subject: subject,

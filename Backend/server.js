@@ -22,7 +22,7 @@ app.use("/" , require("./routes/userRoute"))
 
 
 
-mongoose.connect(process.env.DATABASE_URL).then(() => {
+mongoose.connect("process.env.DATABASE_URL").then(() => {
     app.listen(process.env.PORT,() =>{
         console.log("Server is ready to take off");
         
