@@ -7,7 +7,10 @@ require("dotenv").config();
 
 
 
-app.use(cors())
+app.use(cors({
+    origin: 'https://tawjihi2.vercel.app',
+  }));
+  
 
 app.use(express.json())
 
