@@ -197,7 +197,7 @@ const ItalyStudyGuide = ({ setUser: setLocalStorageUser }) => {
           >
             تسجيل الخروج
           </button>
-          {user && user.Email === "a@a.com" && (
+          {user && user.Email === "mohamedmokhlessbenamor@gmail.com" && (
             <button className="px-4 m-auto py-2 bg-main hover:bg-hover text-white rounded-lg shadow transition">
               <Link to="/Dashboard" className="font-semibold text-white">
                 لوحة التحكم
