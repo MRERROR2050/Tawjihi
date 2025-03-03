@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import italyImage from "../../assets/italy2.jpg"; // استبدل بالمسار الصحيح للصورة
 import axios from "axios";
 import { toast } from "react-toastify";
+const apiUrl = import.meta.env.VITE_REACT_APP_BACKEND_BASEURL;
 
 const LogIn = ({ setUser }) => {
   const [Email, setEmail] = useState("");
@@ -11,7 +12,7 @@ const LogIn = ({ setUser }) => {
 
   const submitForm = async () => {
     try {
-      const { data } = await axios.post(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/Login`, {
+      const { data } = await axios.post(` ${apiUrl}/Login`, {
         Email,
         Password,
       });

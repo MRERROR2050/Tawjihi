@@ -3,13 +3,14 @@ import { Link } from 'react-router-dom';
 import italyImage from '../../assets/italy.jpg'; // استبدل بالمسار الصحيح
 import axios from 'axios';
 import { toast } from 'react-toastify';
+const apiUrl = import.meta.env.VITE_REACT_APP_BACKEND_BASEURL;
 
 const ResetPassword = () => {
   const [Email, setEmail] = useState("");
 
   const submitForm = async () => {
   try {
-    const {data} = await axios.post(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/ResetPassword`,{
+    const {data} = await axios.post(` ${apiUrl}/ResetPassword`,{
       Email
     })
 

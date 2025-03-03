@@ -35,7 +35,9 @@ const FolderTwo = () => {
  async function signout(id) {
  
   try{
-    const { data } = await axios.post(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/SignOut/${id}`);
+    const { data } = await axios.post(` ${apiUrl}/SignOut/${id}`);
+
+
 
     if(data.message == "تم تسجيل الخروج"){
       localStorage.removeItem("user");

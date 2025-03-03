@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import italyImage from "../../assets/italy2.jpg"; 
+const apiUrl = import.meta.env.VITE_REACT_APP_BACKEND_BASEURL;
 
 const SetData = () => {
   const [emailInput, setEmailInput] = useState("");
@@ -19,13 +20,15 @@ const SetData = () => {
     e.preventDefault();
     const user = JSON.parse(localStorage.getItem("user"));
     const { data } = await axios.post(
-      `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/set-user-password`,
+      `   ${apiUrl}/set-user-password`,
       {
         adminMail: user.Email,
         email: emailInput,
         password,
       }
     );
+
+ 
 
     console.log("sent");
 

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { FaEdit, FaTrash, FaHome } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+const apiUrl = import.meta.env.VITE_REACT_APP_BACKEND_BASEURL;
 
 const Dashboard = ({ setUser: setLocalStorageUser }) => {
   // بيانات الطلبات (يمكنك استبدالها ببيانات من API أو قاعدة بيانات)
@@ -13,7 +14,7 @@ const Dashboard = ({ setUser: setLocalStorageUser }) => {
   useEffect(() => {
     async function sendReq() {
       try {
-        const { data } = await axios.get(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/ShowRequests`);
+        const { data } = await axios.get(`${apiUrl}/ShowRequests`);
         console.log(data.Users);
         setUsers(data.Users);
       } catch (error) {
@@ -26,7 +27,7 @@ const Dashboard = ({ setUser: setLocalStorageUser }) => {
   async function deleteUser(id) {
     try {
       const { data } = await axios.delete(
-        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/DeleteRequests/${id}`
+        `${apiUrl}/DeleteRequests/${id}`
       );
 
       if (data.success) {
@@ -45,7 +46,7 @@ const Dashboard = ({ setUser: setLocalStorageUser }) => {
 
   async function signout(id) {
     try {
-      const { data } = await axios.post(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/SignOut/${id}`);
+      const { data } = await axios.post(` ${apiUrl}/SignOut/${id}`);
 
       if (data.message == "تم تسجيل الخروج") {
         localStorage.removeItem("user");
