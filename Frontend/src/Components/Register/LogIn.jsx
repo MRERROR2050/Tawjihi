@@ -4,7 +4,6 @@ import italyImage from "../../assets/italy2.jpg"; // استبدل بالمسار
 import axios from "axios";
 import { toast } from "react-toastify";
 const apiUrl = import.meta.env.VITE_REACT_APP_BACKEND_BASEURL;
-const extraApi = import.meta.env.BACKAPI;
 
 const LogIn = ({ setUser }) => {
   const [Email, setEmail] = useState("");
@@ -14,7 +13,7 @@ const LogIn = ({ setUser }) => {
 
   const submitForm = async () => {
     try {
-      const { data } = await axios.post(` ${apiUrl}/${extraApi}/Login`, {
+      const { data } = await axios.post(` ${apiUrl}/Login`, {
         Email,
         Password,
       });
