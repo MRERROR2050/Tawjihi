@@ -45,5 +45,3 @@ module.exports = async (to, password, name, subject, template) => {
     console.log(error);
   }
 };
-
-//parameter
