@@ -36,7 +36,7 @@ const App = () => {
         <Route
           path="/Dashboard"
           element={
-            user && user.Email === "a@a.com" ? (
+            user && user.Email === "mohamedmokhlessbenamor@gmail.com" ? (
               <Dashboard setUser={setUser} />
             ) : (
               <Navigate to="/LogIn" />
@@ -47,7 +47,7 @@ const App = () => {
         <Route
           path="/setData/:email"
           element={
-            user && user.Email === "a@a.com" ? (
+            user && user.Email === "mohamedmokhlessbenamor@gmail.com" ? (
               <SetData />
             ) : (
               <Navigate to="/LogIn" />
