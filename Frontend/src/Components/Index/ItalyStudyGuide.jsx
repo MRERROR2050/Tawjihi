@@ -17,7 +17,6 @@ import axios from "axios";
 import pdfFive from "../../assets/richiesta_dichiarazione_di_valore (1)_250224_090617.pdf";
 import { ArrowUp } from "lucide-react";
 const apiUrl = import.meta.env.VITE_REACT_APP_BACKEND_BASEURL;
-import Security from '../Security/Security.jsx'
 
 const ItalyStudyGuide = ({ setUser: setLocalStorageUser }) => {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
@@ -59,11 +58,80 @@ const ItalyStudyGuide = ({ setUser: setLocalStorageUser }) => {
     }
   }
 
+  useEffect(() => {
+    // تحقق من أن المستخدم في الصفحة المحددة
+    if (location.pathname === "/ItalyStudyGuide") {
+      // إنشاء طبقة الغباش
+      const blurLayer = document.createElement("div");
+      blurLayer.style.position = "fixed";
+      blurLayer.style.top = "0";
+      blurLayer.style.left = "0";
+      blurLayer.style.width = "100vw";
+      blurLayer.style.height = "100vh";
+      blurLayer.style.background = "rgba(0, 0, 0, 0.5)";
+      blurLayer.style.backdropFilter = "blur(10px)";
+      blurLayer.style.zIndex = "9999";
+      blurLayer.style.display = "none";
+      document.body.appendChild(blurLayer);
+
+      // إنشاء رسالة التحذير
+      const warningMessage = document.createElement("div");
+      warningMessage.style.position = "fixed";
+      warningMessage.style.top = "50%";
+      warningMessage.style.left = "50%";
+      warningMessage.style.transform = "translate(-50%, -50%)";
+      warningMessage.style.background = "white";
+      warningMessage.style.padding = "20px";
+      warningMessage.style.borderRadius = "10px";
+      warningMessage.style.boxShadow = "0px 0px 10px rgba(0, 0, 0, 0.5)";
+      warningMessage.style.fontSize = "18px";
+      warningMessage.style.fontWeight = "bold";
+      warningMessage.style.textAlign = "center";
+      warningMessage.style.display = "none";
+      warningMessage.style.zIndex = "10000";
+      document.body.appendChild(warningMessage);
+
+      // دالة لإظهار التحذير
+      const showBlurMessage = (message) => {
+        blurLayer.style.display = "block";
+        warningMessage.textContent = message;
+        warningMessage.style.display = "block";
+
+        setTimeout(() => {
+          blurLayer.style.display = "none";
+          warningMessage.style.display = "none";
+        }, 3000);
+      };
+
+      // منع أي ضغط على الكيبورد
+      const disableKeyboard = (e) => {
+        e.preventDefault();
+        showBlurMessage("❌ غير مسموح باستخدام لوحة المفاتيح هنا!");
+      };
+
+      document.addEventListener("keydown", disableKeyboard);
+
+      // منع النقر بزر الفأرة الأيمن
+      const disableRightClick = (e) => {
+        e.preventDefault();
+        showBlurMessage("⚠️ النقر بزر الفأرة الأيمن غير مسموح!");
+      };
+
+      document.addEventListener("contextmenu", disableRightClick);
+
+      // تنظيف الأحداث عند مغادرة الصفحة
+      return () => {
+        document.removeEventListener("keydown", disableKeyboard);
+        document.removeEventListener("contextmenu", disableRightClick);
+        document.body.removeChild(blurLayer);
+        document.body.removeChild(warningMessage);
+      };
+    }
+  }, [location.pathname]);
 
 
   return (
     <div className="w-full min-h-screen bg-gray-100   p-6">
-  <Security/>
           <button
       onClick={scrollToTop}
       className={`fixed bottom-6 right-6 bg-white text-black p-3 rounded-full shadow-lg transition-opacity duration-300 ${
@@ -819,7 +887,6 @@ Declaration d'impot
           </li>
         </section>
       </div>
-      
     </div>
   );
 };
