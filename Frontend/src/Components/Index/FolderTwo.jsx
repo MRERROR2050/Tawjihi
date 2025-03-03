@@ -52,122 +52,125 @@ const FolderTwo = () => {
   }
 
 
-//   // إنشاء طبقة الغباش
-// const blurLayer = document.createElement("div");
-// blurLayer.style.position = "fixed";
-// blurLayer.style.top = "0";
-// blurLayer.style.left = "0";
-// blurLayer.style.width = "100vw";
-// blurLayer.style.height = "100vh";
-// blurLayer.style.background = "rgba(0, 0, 0, 0.5)"; // خلفية شفافة
-// blurLayer.style.backdropFilter = "blur(10px)"; // تأثير الغباش
-// blurLayer.style.zIndex = "9999";
-// blurLayer.style.display = "none"; // إخفاؤه افتراضيًا
-// document.body.appendChild(blurLayer);
 
-// // إنشاء رسالة التحذير
-// const warningMessage = document.createElement("div");
-// warningMessage.style.position = "fixed";
-// warningMessage.style.top = "50%";
-// warningMessage.style.left = "50%";
-// warningMessage.style.transform = "translate(-50%, -50%)";
-// warningMessage.style.background = "white";
-// warningMessage.style.padding = "20px";
-// warningMessage.style.borderRadius = "10px";
-// warningMessage.style.boxShadow = "0px 0px 10px rgba(0, 0, 0, 0.5)";
-// warningMessage.style.fontSize = "18px";
-// warningMessage.style.fontWeight = "bold";
-// warningMessage.style.textAlign = "center";
-// warningMessage.style.display = "none"; // إخفاؤه افتراضيًا
-// warningMessage.style.zIndex = "10000";
-// document.body.appendChild(warningMessage);
+    useEffect(() => {
+const blurLayer = document.createElement("div");
+blurLayer.style.position = "fixed";
+blurLayer.style.top = "0";
+blurLayer.style.left = "0";
+blurLayer.style.width = "100vw";
+blurLayer.style.height = "100vh";
+blurLayer.style.background = "rgba(0, 0, 0, 0.5)"; // خلفية شفافة
+blurLayer.style.backdropFilter = "blur(10px)"; // تأثير الغباش
+blurLayer.style.zIndex = "9999";
+blurLayer.style.display = "none"; // إخفاؤه افتراضيًا
+document.body.appendChild(blurLayer);
 
-// // دالة لتفعيل الغباش مع الرسالة
-// function showBlurMessage(message) {
-//   blurLayer.style.display = "block";
-//   warningMessage.textContent = message;
-//   warningMessage.style.display = "block";
+// إنشاء رسالة التحذير
+const warningMessage = document.createElement("div");
+warningMessage.style.position = "fixed";
+warningMessage.style.top = "50%";
+warningMessage.style.left = "50%";
+warningMessage.style.transform = "translate(-50%, -50%)";
+warningMessage.style.background = "white";
+warningMessage.style.padding = "20px";
+warningMessage.style.borderRadius = "10px";
+warningMessage.style.boxShadow = "0px 0px 10px rgba(0, 0, 0, 0.5)";
+warningMessage.style.fontSize = "18px";
+warningMessage.style.fontWeight = "bold";
+warningMessage.style.textAlign = "center";
+warningMessage.style.display = "none"; // إخفاؤه افتراضيًا
+warningMessage.style.zIndex = "10000";
+document.body.appendChild(warningMessage);
 
-//   setTimeout(() => {
-//     blurLayer.style.display = "none";
-//     warningMessage.style.display = "none";
-//   }, 3000); // إزالة الغباش والرسالة بعد 3 ثوانٍ
-// }
+// دالة لتفعيل الغباش مع الرسالة
+function showBlurMessage(message) {
+  blurLayer.style.display = "block";
+  warningMessage.textContent = message;
+  warningMessage.style.display = "block";
 
-// // منع أي ضغط على الكيبورد
-// document.addEventListener("keydown", function (e) {
-//   e.preventDefault();
-//   showBlurMessage("❌ غير مسموح باستخدام لوحة المفاتيح هنا!");
-// });
+  setTimeout(() => {
+    blurLayer.style.display = "none";
+    warningMessage.style.display = "none";
+  }, 3000); // إزالة الغباش والرسالة بعد 3 ثوانٍ
+}
 
-// // منع النقر بزر الفأرة الأيمن
-// document.addEventListener("contextmenu", function (e) {
-//   e.preventDefault();
-//   showBlurMessage("⚠️ النقر بزر الفأرة الأيمن غير مسموح!");
-// });
+// منع أي ضغط على الكيبورد
+document.addEventListener("keydown", function (e) {
+  e.preventDefault();
+  showBlurMessage("❌ غير مسموح باستخدام لوحة المفاتيح هنا!");
+});
 
-// // منع لقطة الشاشة (PrintScreen)
-// document.addEventListener("keydown", function (e) {
-//   if (e.key === "PrintScreen") {
-//     navigator.clipboard.writeText(""); // مسح الحافظة
-//     e.preventDefault();
-//     showBlurMessage("📸 لقطة الشاشة غير مسموح بها!");
-//   }
-// });
+// منع النقر بزر الفأرة الأيمن
+document.addEventListener("contextmenu", function (e) {
+  e.preventDefault();
+  showBlurMessage("⚠️ النقر بزر الفأرة الأيمن غير مسموح!");
+});
 
-// // منع Snipping Tool (إخفاء الموقع عند فقدان التركيز)
-// document.addEventListener("visibilitychange", function () {
-//   if (document.visibilityState === "hidden") {
-//     document.body.style.display = "none"; // إخفاء الصفحة
-//   } else {
-//     document.body.style.display = "block";
-//     showBlurMessage("🔍 تم اكتشاف محاولة لقطة شاشة!");
-//   }
-// });
+// منع لقطة الشاشة (PrintScreen)
+document.addEventListener("keydown", function (e) {
+  if (e.key === "PrintScreen") {
+    navigator.clipboard.writeText(""); // مسح الحافظة
+    e.preventDefault();
+    showBlurMessage("📸 لقطة الشاشة غير مسموح بها!");
+  }
+});
 
-// // منع وضع "Alt + Tab" لتبديل النوافذ
-// window.addEventListener("blur", function () {
-//   document.body.style.opacity = "0"; // تقليل الشفافية عند تبديل النوافذ
-// });
-// window.addEventListener("focus", function () {
-//   document.body.style.opacity = "1"; // إرجاع الشفافية عند العودة
-//   showBlurMessage("⚠️ تم اكتشاف تبديل النوافذ!");
-// });
+// منع Snipping Tool (إخفاء الموقع عند فقدان التركيز)
+document.addEventListener("visibilitychange", function () {
+  if (document.visibilityState === "hidden") {
+    document.body.style.display = "none"; // إخفاء الصفحة
+  } else {
+    document.body.style.display = "block";
+    showBlurMessage("🔍 تم اكتشاف محاولة لقطة شاشة!");
+  }
+});
 
-// // لمنع التفاعل مع شاشة الموبايل عبر اللمس
-// document.addEventListener("touchstart", function (e) {
-//   e.preventDefault();
-//   showBlurMessage("🚫 التفاعل باللمس غير مسموح به!");
-// });
+// منع وضع "Alt + Tab" لتبديل النوافذ
+window.addEventListener("blur", function () {
+  document.body.style.opacity = "0"; // تقليل الشفافية عند تبديل النوافذ
+});
+window.addEventListener("focus", function () {
+  document.body.style.opacity = "1"; // إرجاع الشفافية عند العودة
+  showBlurMessage("⚠️ تم اكتشاف تبديل النوافذ!");
+});
 
-// // منع التكبير (pinch-to-zoom)
-// document.addEventListener("touchmove", function (e) {
-//   if (e.scale !== 1) {
-//     e.preventDefault();
-//     showBlurMessage("⚠️ التكبير غير مسموح به!");
-//   }
-// }, { passive: false });
+// لمنع التفاعل مع شاشة الموبايل عبر اللمس
+document.addEventListener("touchstart", function (e) {
+  e.preventDefault();
+  showBlurMessage("🚫 التفاعل باللمس غير مسموح به!");
+});
 
-// // منع النقر المزدوج لتكبير الصفحة
-// document.addEventListener("dblclick", function (e) {
-//   e.preventDefault();
-//   showBlurMessage("🚫 النقر المزدوج غير مسموح!");
-// });
+// منع التكبير (pinch-to-zoom)
+document.addEventListener("touchmove", function (e) {
+  if (e.scale !== 1) {
+    e.preventDefault();
+    showBlurMessage("⚠️ التكبير غير مسموح به!");
+  }
+}, { passive: false });
 
-// // منع الشريط العلوي في الأجهزة المحمولة (الذي يظهر أثناء سحب الشاشة)
-// document.addEventListener("touchend", function (e) {
-//   e.preventDefault();
-// });
+// منع النقر المزدوج لتكبير الصفحة
+document.addEventListener("dblclick", function (e) {
+  e.preventDefault();
+  showBlurMessage("🚫 النقر المزدوج غير مسموح!");
+});
 
-// // منع التقاط لقطة شاشة على الموبايل عبر الأدوات المدمجة
-// document.addEventListener("visibilitychange", function () {
-//   if (document.hidden) {
-//     document.body.style.display = "none"; // إخفاء الموقع
-//   } else {
-//     document.body.style.display = "block";
-//     showBlurMessage("🔍 تم اكتشاف محاولة لقطة شاشة!");
-//   }
-// });
+// منع الشريط العلوي في الأجهزة المحمولة (الذي يظهر أثناء سحب الشاشة)
+document.addEventListener("touchend", function (e) {
+  e.preventDefault();
+});
+
+// منع التقاط لقطة شاشة على الموبايل عبر الأدوات المدمجة
+document.addEventListener("visibilitychange", function () {
+  if (document.hidden) {
+    document.body.style.display = "none"; // إخفاء الموقع
+  } else {
+    document.body.style.display = "block";
+    showBlurMessage("🔍 تم اكتشاف محاولة لقطة شاشة!");
+  }
+});
+
+}, []);
 
 
   return (
