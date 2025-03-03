@@ -17,6 +17,7 @@ import axios from "axios";
 import pdfFive from "../../assets/richiesta_dichiarazione_di_valore (1)_250224_090617.pdf";
 import { ArrowUp } from "lucide-react";
 const apiUrl = import.meta.env.VITE_REACT_APP_BACKEND_BASEURL;
+import Security from '../Security/Security.jsx'
 
 const ItalyStudyGuide = ({ setUser: setLocalStorageUser }) => {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
@@ -59,131 +60,10 @@ const ItalyStudyGuide = ({ setUser: setLocalStorageUser }) => {
   }
 
 
- 
-    useEffect(() => {
-
-// إنشاء طبقة الغباش
-const blurLayer = document.createElement("div");
-blurLayer.style.position = "fixed";
-blurLayer.style.top = "0";
-blurLayer.style.left = "0";
-blurLayer.style.width = "100vw";
-blurLayer.style.height = "100vh";
-blurLayer.style.background = "rgba(0, 0, 0, 0.5)"; // خلفية شفافة
-blurLayer.style.backdropFilter = "blur(10px)"; // تأثير الغباش
-blurLayer.style.zIndex = "9999";
-blurLayer.style.display = "none"; // إخفاؤه افتراضيًا
-document.body.appendChild(blurLayer);
-
-// إنشاء رسالة التحذير
-const warningMessage = document.createElement("div");
-warningMessage.style.position = "fixed";
-warningMessage.style.top = "50%";
-warningMessage.style.left = "50%";
-warningMessage.style.transform = "translate(-50%, -50%)";
-warningMessage.style.background = "white";
-warningMessage.style.padding = "20px";
-warningMessage.style.borderRadius = "10px";
-warningMessage.style.boxShadow = "0px 0px 10px rgba(0, 0, 0, 0.5)";
-warningMessage.style.fontSize = "18px";
-warningMessage.style.fontWeight = "bold";
-warningMessage.style.textAlign = "center";
-warningMessage.style.display = "none"; // إخفاؤه افتراضيًا
-warningMessage.style.zIndex = "10000";
-document.body.appendChild(warningMessage);
-
-// دالة لتفعيل الغباش مع الرسالة
-function showBlurMessage(message) {
-  blurLayer.style.display = "block";
-  warningMessage.textContent = message;
-  warningMessage.style.display = "block";
-
-  setTimeout(() => {
-    blurLayer.style.display = "none";
-    warningMessage.style.display = "none";
-  }, 3000); // إزالة الغباش والرسالة بعد 3 ثوانٍ
-}
-
-// منع أي ضغط على الكيبورد
-document.addEventListener("keydown", function (e) {
-  e.preventDefault();
-  showBlurMessage("❌ غير مسموح باستخدام لوحة المفاتيح هنا!");
-});
-
-// منع النقر بزر الفأرة الأيمن
-document.addEventListener("contextmenu", function (e) {
-  e.preventDefault();
-  showBlurMessage("⚠️ النقر بزر الفأرة الأيمن غير مسموح!");
-});
-
-// منع لقطة الشاشة (PrintScreen)
-document.addEventListener("keydown", function (e) {
-  if (e.key === "PrintScreen") {
-    navigator.clipboard.writeText(""); // مسح الحافظة
-    e.preventDefault();
-    showBlurMessage("📸 لقطة الشاشة غير مسموح بها!");
-  }
-});
-
-// منع Snipping Tool (إخفاء الموقع عند فقدان التركيز)
-document.addEventListener("visibilitychange", function () {
-  if (document.visibilityState === "hidden") {
-    document.body.style.display = "none"; // إخفاء الصفحة
-  } else {
-    document.body.style.display = "block";
-    showBlurMessage("🔍 تم اكتشاف محاولة لقطة شاشة!");
-  }
-});
-
-// منع وضع "Alt + Tab" لتبديل النوافذ
-window.addEventListener("blur", function () {
-  document.body.style.opacity = "0"; // تقليل الشفافية عند تبديل النوافذ
-});
-window.addEventListener("focus", function () {
-  document.body.style.opacity = "1"; // إرجاع الشفافية عند العودة
-  showBlurMessage("⚠️ تم اكتشاف تبديل النوافذ!");
-});
-
-// لمنع التفاعل مع شاشة الموبايل عبر اللمس
-document.addEventListener("touchstart", function (e) {
-  e.preventDefault();
-  showBlurMessage("🚫 التفاعل باللمس غير مسموح به!");
-});
-
-// منع التكبير (pinch-to-zoom)
-document.addEventListener("touchmove", function (e) {
-  if (e.scale !== 1) {
-    e.preventDefault();
-    showBlurMessage("⚠️ التكبير غير مسموح به!");
-  }
-}, { passive: false });
-
-// منع النقر المزدوج لتكبير الصفحة
-document.addEventListener("dblclick", function (e) {
-  e.preventDefault();
-  showBlurMessage("🚫 النقر المزدوج غير مسموح!");
-});
-
-// منع الشريط العلوي في الأجهزة المحمولة (الذي يظهر أثناء سحب الشاشة)
-document.addEventListener("touchend", function (e) {
-  e.preventDefault();
-});
-
-// منع التقاط لقطة شاشة على الموبايل عبر الأدوات المدمجة
-document.addEventListener("visibilitychange", function () {
-  if (document.hidden) {
-    document.body.style.display = "none"; // إخفاء الموقع
-  } else {
-    document.body.style.display = "block";
-    showBlurMessage("🔍 تم اكتشاف محاولة لقطة شاشة!");
-  }
-});
-
-
-}, []);
 
   return (
     <div className="w-full min-h-screen bg-gray-100   p-6">
+  <Security/>
           <button
       onClick={scrollToTop}
       className={`fixed bottom-6 right-6 bg-white text-black p-3 rounded-full shadow-lg transition-opacity duration-300 ${
@@ -939,6 +819,7 @@ Declaration d'impot
           </li>
         </section>
       </div>
+      
     </div>
   );
 };
