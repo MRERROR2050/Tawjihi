@@ -5,6 +5,7 @@ import axios from "axios";
 import Folder from '../../../public/New folder (3).zip'
 import image from '../../assets/imagefoldertwo.jpeg'
 import { ArrowUp } from "lucide-react";
+import pdf from '../../assets/مطبوعة التصريح بالضريبة على دخل الأشخاص الطبيعيين _250304_081215.pdf'
 
 
 
@@ -192,7 +193,18 @@ Dossier Bourse
             </div>
             <div className="bg-white p-4 rounded-md shadow-sm">
               <h3 className="font-medium text-lg"> ملء الأوراق PDF</h3>
-              <p className="text-gray-600">قم بملء الأوراق PDF بعد طباعتها</p>
+              <p className="text-gray-600">
+  قم بملء الأوراق PDF&nbsp;بعد طباعتها&nbsp;
+  <a 
+    href={pdf}
+    download 
+    className="text-blue-500 underline"
+  >
+    تحميل الملف
+  </a>
+</p>
+
+
             </div>
             <div className="bg-white p-4 rounded-md shadow-sm">
               <h3 className="font-medium text-lg"> طلب Cachet + Quitance Rose</h3>
