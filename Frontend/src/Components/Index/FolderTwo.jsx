@@ -165,7 +165,7 @@ const FolderTwo = () => {
   to="/FolderTwo"
   className="text-main border-2 border-transparent border-main py-5 px-3 transition duration-200 hover:bg-main hover:text-white"
 >
-Declaration d'impot
+Dossier Bourse
 </Link>
 
           </h1>
