@@ -8,6 +8,7 @@ const apiUrl = import.meta.env.VITE_REACT_APP_BACKEND_BASEURL;
 const Dashboard = ({ setUser: setLocalStorageUser }) => {
   // بيانات الطلبات (يمكنك استبدالها ببيانات من API أو قاعدة بيانات)
   const [users, setUsers] = useState([]); // تعيين القيمة الافتراضية كمصفوفة فارغة
+  const [allUsers, setAllUsers] = useState([]); // تعيين القيمة الافتراضية كمصفوفة فارغة
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
   const navigate = useNavigate();
 
@@ -24,6 +25,22 @@ const Dashboard = ({ setUser: setLocalStorageUser }) => {
     sendReq();
   }, []);
 
+
+  useEffect(() => {
+    async function getusers() {
+      try {
+        const { data } = await axios.get(`${apiUrl}/getUsers`);
+        console.log(data.allUsers);
+        setAllUsers(data.allUsers);
+        console.log(allUsers);
+        
+      } catch (error) {
+        console.error("Error fetching profile Info:", error);
+      }
+    }
+    getusers();
+  }, []);
+
   async function deleteUser(id) {
     try {
       const { data } = await axios.delete(
@@ -32,8 +49,9 @@ const Dashboard = ({ setUser: setLocalStorageUser }) => {
 
       if (data.success) {
         // تحديث المستخدمين بعد الحذف
-        const updatedUsers = users.filter((user) => user._id !== id); // تأكد من استخدام _id في المقارنة
-        setUsers(updatedUsers); // تحديث الـ state بالمستخدمين الجدد بعد الحذف
+        const updatedUsers = allUsers.filter((user) => user._id !== id); // تأكد من استخدام _id في المقارنة
+        setAllUsers(updatedUsers); // تحديث الـ state بالمستخدمين الجدد بعد الحذف
+      
         toast.success("تم حذف طلب المستخدم بنجاح");
       } else {
         console.error("Failed to delete user");
@@ -93,7 +111,7 @@ const Dashboard = ({ setUser: setLocalStorageUser }) => {
       {/* المحتوى الرئيسي */}
       <div className="container mx-auto p-6">
         <h2 className="text-2xl font-bold text-gray-800 mb-4 text-right">
-          لوحة تحكم المستخدمين
+          لوحة تحكم طلبات المستخدمين
         </h2>
 
         <div className="overflow-x-auto">
@@ -147,6 +165,62 @@ const Dashboard = ({ setUser: setLocalStorageUser }) => {
             </tbody>
           </table>
         </div>
+
+
+
+        <h2 className="text-2xl mt-12 font-bold text-gray-800 mb-4 text-right">
+          لوحة تحكم المستخدمين
+        </h2>
+
+        <div className="overflow-x-auto ">
+          <table className="min-w-full bg-white border border-gray-300 shadow-md rounded-lg">
+            <thead className="bg-gray-100">
+              <tr>
+                <th className="py-3 px-6 text-center border-b">الإجراءات</th>
+                <th className="py-3 px-6 text-left border-b">وقت الطلب</th>
+               
+                <th className="py-3 px-6 text-left border-b">
+                  البريد الإلكتروني
+                </th>
+                <th className="py-3 px-6 text-left border-b">اسم المستخدم</th>
+              </tr>
+            </thead>
+            <tbody>
+              {allUsers.map((user) => (
+                <tr key={user._id} className="hover:bg-gray-50">
+                  <td className="py-3 px-6 border-b text-center space-x-3">
+                   
+                    <button
+                      className="text-red-600 hover:text-red-800"
+                      onClick={() => deleteUser(user._id)}
+                    >
+                      <FaTrash size={18} />
+                    </button>
+                  </td>
+                  <td className="py-3 px-6 border-b">
+                    {new Date(user.createdAt).toLocaleString("ar-EG", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                      hour: "2-digit",
+                      minute: "2-digit",
+                      second: "2-digit",
+                      hour12: true,
+                    })}
+                  </td>
+
+                
+                  <td className="py-3 px-6 border-b">{user.Email}</td>
+                  <td className="py-3 px-6 border-b">{user.Name}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+
+
+
       </div>
     </div>
   );

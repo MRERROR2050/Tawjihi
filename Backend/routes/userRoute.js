@@ -7,6 +7,7 @@ const {
   SignOut,
   ResetPassword,
   setPassword,
+  getUsers,
 } = require("../controllers/authControllers");
 
 routerUser.post("/SignUp", SignUpUser);
@@ -16,5 +17,6 @@ routerUser.post("/Login", Login);
 routerUser.post("/SignOut/:id", SignOut);
 routerUser.post("/ResetPassword", ResetPassword);
 routerUser.post("/set-user-password", setPassword);
+routerUser.get("/getUsers", getUsers);
 
 module.exports = routerUser;

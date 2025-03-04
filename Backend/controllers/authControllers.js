@@ -174,8 +174,8 @@ const SignOut = async (req, res) => {
 };
 
 /**
- * @description SignUp
- * @route SignUp
+ * @description Reset Password 
+ * @route ResetPassword 
  * @Method Post
  * @Access Public
  */
@@ -256,6 +256,40 @@ const setPassword = async (req, res) => {
   }
 };
 
+
+
+/**
+ * @description Get All Users
+ * @route /set-user-password
+ * @Method Post
+ * @Access private (only admin)
+ */
+
+const getUsers = async (req,res) => {
+  try {
+    const allUsers = await SignUp.find();
+
+    // تصفية المستخدمين الذين لا يحققون الشرط
+   
+
+    res.status(200).json({
+      error: false,
+      message: "Display Users",
+      allUsers: allUsers,
+    });
+  } catch (error) {
+    console.log(error.response);
+    return res
+      .status(500)
+      .json({ error: true, message: "Something went wrong" });
+  }
+
+}
+  
+
+
+
+
 module.exports = {
   SignUpUser,
   ShowUsers,
@@ -264,4 +298,5 @@ module.exports = {
   SignOut,
   ResetPassword,
   setPassword,
+  getUsers,
 };
