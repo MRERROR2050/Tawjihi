@@ -50,8 +50,10 @@ const Dashboard = ({ setUser: setLocalStorageUser }) => {
       if (data.success) {
         // تحديث المستخدمين بعد الحذف
         const updatedUsers = allUsers.filter((user) => user._id !== id); // تأكد من استخدام _id في المقارنة
-        setAllUsers(updatedUsers); // تحديث الـ state بالمستخدمين الجدد بعد الحذف
-      
+        setAllUsers(updatedUsers);
+         // تحديث الـ state بالمستخدمين الجدد بعد الحذف
+         const updatedUsersReq = users.filter((user) => user._id !== id); 
+         setUsers(updatedUsersReq); // تحديث الـ state بالمستخدمين الجدد بعد الحذف
         toast.success("تم حذف طلب المستخدم بنجاح");
       } else {
         console.error("Failed to delete user");
